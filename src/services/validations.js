@@ -66,3 +66,21 @@ export const providerValidation = {
     },
   },
 };
+
+export const categoryValidation = {
+  create: {
+    body: {
+      title: Joi.string()
+        .required()
+        .min(6)
+        .max(30),
+    },
+  },
+  update: {
+    body: {
+      title: Joi.string()
+        .min(6)
+        .max(30),
+    },
+  },
+};

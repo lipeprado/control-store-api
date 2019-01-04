@@ -48,7 +48,10 @@ export const createProvider = async (req, res, next) => {
     });
     return res
       .status(HTTPStatus.CREATED)
-      .json({ message: `Provider ${provider.name} was created with success` });
+      .json({
+        message: `Provider ${provider.name} was created with success`,
+        provider,
+      });
   } catch (error) {
     res.status(HTTPStatus.BAD_REQUEST).json({ error });
   }

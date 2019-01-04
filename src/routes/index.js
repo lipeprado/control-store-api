@@ -9,12 +9,14 @@ import logErrorService from '../services/log';
 import UsersRoutes from '../modules/User/routes';
 import AuthRoutes from '../modules/Auth/routes';
 import ProviderRoutes from '../modules/Provider/routes';
+import CategoryRoutes from '../modules/Category/routes';
 
 const routes = express.Router();
 
 routes.use('/users', UsersRoutes);
 routes.use('/auth', AuthRoutes);
 routes.use('/providers', ProviderRoutes);
+routes.use('/categories', CategoryRoutes);
 
 routes.all('*', (req, res, next) => next(new APIError('Not Found!', HTTPStatus.NOT_FOUND, true)));
 
