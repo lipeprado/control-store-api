@@ -20,6 +20,20 @@ export const userValidation = {
         .required(),
     },
   },
+  update: {
+    body: {
+      email: Joi.string().email(),
+      password: Joi.string()
+        .min(6)
+        .regex(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/),
+      firstName: Joi.string()
+        .min(3)
+        .max(20),
+      lastName: Joi.string()
+        .min(3)
+        .max(20),
+    },
+  },
   login: {
     body: {
       email: Joi.string()
@@ -32,4 +46,23 @@ export const userValidation = {
   },
 };
 
-export const expenseValidation = {};
+export const providerValidation = {
+  create: {
+    body: {
+      email: Joi.string()
+        .email()
+        .required(),
+      name: Joi.string()
+        .min(6)
+        .required(),
+      details: Joi.string().min(6),
+    },
+  },
+  update: {
+    body: {
+      email: Joi.string().email(),
+      name: Joi.string().min(6),
+      details: Joi.string().min(6),
+    },
+  },
+};

@@ -1,5 +1,5 @@
 /**
- * User Routes
+ * Auth Routes
  */
 
 import express from 'express';

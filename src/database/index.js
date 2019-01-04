@@ -8,6 +8,7 @@ const enviroment = dotenv.config();
 
 // Remove the warning with Promise
 mongoose.Promise = global.Promise;
+mongoose.set('useFindAndModify', false);
 
 export default async () => {
   const {
@@ -21,6 +22,7 @@ export default async () => {
         useCreateIndex: true,
       },
     );
+    logger.info('Mongo database is connected.');
   } catch (error) {
     logger.error(error);
     mongoose.createConnection(

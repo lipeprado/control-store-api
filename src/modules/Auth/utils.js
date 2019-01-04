@@ -2,6 +2,7 @@ import { compareSync } from 'bcrypt-nodejs';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import HTTPStatus from 'http-status';
+import User from '../User/model';
 
 const enviroment = dotenv.config();
 const { JWT_SECRET } = enviroment.parsed;
@@ -28,7 +29,13 @@ export const authCheck = async (req, res, next) => {
     return res.sendStatus(HTTPStatus.UNAUTHORIZED);
   }
   const splitedToken = authorization.split(' ');
+
   const verify = await verifyJWTToken(splitedToken[1]);
+  const userExists = await User.findById(verify.id);
+  if (!userExists) {
+    res.sendStatus(HTTPStatus.UNAUTHORIZED);
+    return false;
+  }
   req.user = verify;
   next();
   return true;

@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable no-underscore-dangle */
 import mongoose, { Schema } from 'mongoose';
 
@@ -47,7 +48,6 @@ UserSchema.plugin(uniqueValidator, {
 });
 
 // Hash the user password on creation
-// eslint-disable-next-line func-names
 UserSchema.pre('save', function (next) {
   if (this.isModified('password')) {
     this.password = this._hashPassword(this.password);
@@ -56,6 +56,16 @@ UserSchema.pre('save', function (next) {
   return next();
 });
 
+function _hashUpdatePassword(password) {
+  return hashSync(password);
+}
+UserSchema.pre('findOneAndUpdate', function (next) {
+  this.findOneAndUpdate(
+    {},
+    { password: _hashUpdatePassword(this.getUpdate().$set.password) },
+  );
+  return next();
+});
 UserSchema.methods = {
   _hashPassword(password) {
     return hashSync(password);
@@ -69,20 +79,6 @@ UserSchema.methods = {
   toAuthJSON() {
     return {
       token: `JWT ${this.createToken()}`,
-    };
-  },
-
-  /**
-   * Parse the user object in data we wanted to send
-   *
-   * @public
-   * @returns {Object} User - ready for populate
-   */
-  toJSON() {
-    return {
-      _id: this._id,
-      firstName: this.firstName,
-      email: this.email,
     };
   },
 };

@@ -1,5 +1,5 @@
 /**
- * User controller
+ * Auth controller
  */
 
 import HTTPStatus from 'http-status';
